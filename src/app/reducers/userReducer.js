@@ -1,14 +1,10 @@
-// let initialState = {
-//     name: 'Nilesh',
-//     email: 'asdf',
-//     password: 'asdf'
-// }
-
-const userReducer = (state = {
+let initialState = {
     name: 'Nilesh',
     email: 'asdf',
     password: 'asdf'
-}, action) => {
+}
+
+const userReducer = (state = initialState, action) => {
     switch (action.type) {
         // case "USER-REGISTER":
         //     state = {
@@ -21,8 +17,8 @@ const userReducer = (state = {
         case "USER-LOGIN":
             state = {
                 ...state,
-                email: action.email,
-                password: action.password
+                email: action.payload.email,
+                password: action.payload.password
             };
             break;
     }

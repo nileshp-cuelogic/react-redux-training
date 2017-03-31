@@ -8,9 +8,14 @@
 // }
 
 export function onLogin(email, password) {
+    return (dispatch, getState) => {
+        console.log("nilesh",getState)
+    }
     return {
         type: "USER-LOGIN",
-        email: email,
-        password: password
+        payload: {
+            email: email,
+            password: password
+        }
     }
 }

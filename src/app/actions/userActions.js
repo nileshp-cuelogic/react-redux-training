@@ -1,21 +1,20 @@
-// export function Register(name, email, password) {
-//     return {
-//         type: "USER-REGISTER",
-//         name: action.name,
-//         email: action.email,
-//         password: action.password
-//     }
-// }
-
-export function onLogin(email, password) {
-    return (dispatch, getState) => {
-        console.log("nilesh",getState)
+export function onRegister(userData) {
+    return {
+        type: "USER-REGISTER",
+        payload: {
+            name: userData.name,
+            email: userData.email,
+            password: userData.password
+        }
     }
+}
+
+export function onLogin(credentials) {
     return {
         type: "USER-LOGIN",
         payload: {
-            email: email,
-            password: password
+            email: credentials.username,
+            password: credentials.password
         }
     }
 }

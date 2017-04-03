@@ -1,22 +1,41 @@
 import React from 'react'
-//import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { LoginComponent } from '../components/Login'
 import { onLogin } from '../actions/userActions'
 class Login extends React.Component {
-    handleSubmit = () => {
-        this.props.onLogin("dsad", "dsadas");
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            credentials: {
+                username: "",
+                password: ""
+            }
+        }
+    }
+
+    handleChange = (event) => {
+        //if(event.target.id);
+
+        const field = event.target.id;
+        const credentials = this.state.credentials;
+        credentials[field] = event.target.value;
+        return this.setState({ credentials: credentials });
+
+    }
+
+    handleSubmit = (username, password) => {
+        this.props.onLogin(this.state.credentials);
     }
 
     render() {
         return (
             <div>
-                <LoginComponent submitHandle={this.handleSubmit.bind(this)} ></LoginComponent>
+                <LoginComponent handleChange={this.handleChange.bind(this)} submitHandle={this.handleSubmit.bind(this)} ></LoginComponent>
             </div>
         );
     }
 }
-
 
 const mapStateToProps = (state) => {
     return {
@@ -26,8 +45,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onLogin: (email, password) => {
-            dispatch(onLogin(email, password));
+        onLogin: (credentials) => {
+            dispatch(onLogin(credentials));
         }
     }
 }

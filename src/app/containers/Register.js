@@ -1,24 +1,64 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { RegisterComponent } from '../components/Register'
+import { onRegister } from '../actions/userActions'
+import { browserHistory } from 'react-router'
+class Register extends React.Component {
 
-export class Register extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            userData: {
+                name: "",
+                email: "",
+                password: ""
+            }
+
+        }
+    }
+
+    handleChange = (event) => {
+        const field = event.target.id;
+        
+        const userData = this.state.userData;
+        userData[field] = event.target.value;
+        return this.setState({ userData: userData });
+
+    }
+
+    handleSubmit = () => {
+        this.props.onRegister(this.state.userData);
+    }
+
+    handleNavigateToLogin = () => {
+        browserHistory.push("/login");
+    }
+
     render() {
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-xs-10 col-xs-offset-1">
-                        <h3>Register</h3>
-                    </div>
-                </div>
-                <hr />
-                <div className="row">
-                    <div className="col-xs-10 col-xs-offset-1">
-                        <div>Name : <input type="text" id="name" required />  </div><br />
-                        <div>Email : <input type="email" id="email" required /></div> <br />
-                        <div>Password : <input type="password" id="password" required /></div> <br />
-                        <button className="btn btn-primary">Register</button>  <button onClick={() => this.navigateToHome()} className="btn btn-primary">Cancel</button>
-                    </div>
-                </div>
+            <div>
+                <RegisterComponent 
+                        handleChange={this.handleChange.bind(this)} 
+                        handleRegister={this.handleSubmit.bind(this)} 
+                        handleNavigateToLogin={this.handleNavigateToLogin.bind(this)} 
+                />
             </div>
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.userReducer
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onRegister: (userData) => {
+            dispatch(onRegister(userData));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
